@@ -1,6 +1,8 @@
+import Avatar from "./Avatar";
+
 type MiniDialogProps = {
   name: string;
-  avatar?: string | null;
+  userId: number;
   lastMessage?: string | null;
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
   readed?: boolean;
@@ -10,33 +12,14 @@ type MiniDialogProps = {
 const MiniDialog = ({
   readed,
   name,
-  avatar,
+  userId,
   lastMessage,
   onClick,
 }: MiniDialogProps) => {
   return (
     <>
       <div onClick={onClick} className="card card-side w-full rounded-none">
-        <figure className="flex ml-4 self-center h-full justify-center">
-          {avatar ? (
-            <div className="avatar w-16 h-16">
-              <div className="rounded-full w-16 h-16">
-                <img
-                  src="https://imgv3.fotor.com/images/gallery/realistic-purple-hair-woman-avatar.jpg"
-                  alt=""
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="avatar placeholder h-full items-center">
-              <div className="bg-neutral-focus text-neutral-content rounded-full w-16 h-16">
-                <span className="text-3xl text-base-100">
-                  {name[0].toUpperCase()}
-                </span>
-              </div>
-            </div>
-          )}
-        </figure>
+        <Avatar userId={userId} name={name} />
         <div className="card-body">
           <div className="flex">
             <div className="flex flex-col">

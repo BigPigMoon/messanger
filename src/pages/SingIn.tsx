@@ -1,18 +1,57 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { API_URL } from "../http";
+import { useToken } from "../store";
+import Alert from "../components/Alert";
 
 const SignIn = () => {
-  useEffect(() => {
-    let ws = new WebSocket("wss://bigeny.ru/api/messages/ws/messanger/1");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
-    ws.onopen = (e) => {
-      ws.send("hello world");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeId);
     };
-  }, []);
+  }, [showAlert]);
+
+  const navigate = useNavigate();
+
+  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    axios
+      .post(`${API_URL}/auth/login`, {
+        username: login,
+        password: password,
+      })
+      .then((res) => {
+        const { access_token, refresh_token } = res.data;
+        useToken.setState({ access: access_token, refresh: refresh_token });
+        navigate("/");
+      })
+      .catch((e) => {
+        if (e.response) {
+          const status: number = e.response.status;
+          if (status === 401) {
+            setShowAlert(true);
+            setAlertMessage("Не верный логин или пароль!");
+          }
+        }
+      });
+  };
 
   return (
     <>
+      {showAlert && <Alert message={alertMessage} />}
       <div className="hero bg-base-200">
         <div className="hero-content min-h-screen flex-col lg:flex-row-reverse">
           <div className="flex card card-side bg-base-100 shadow-2xl md:w-3/5 lg:w-full">
@@ -20,33 +59,39 @@ const SignIn = () => {
               <img src="/images/abstraction.png" alt="abstraction" />
             </figure>
             <div className="card-body md:w-screen lg:w-3/5">
-              <Input
-                name="Логин"
-                type="text"
-                setVar={() => {}}
-                placeholder="Логин *"
-              />
-              <Input
-                name="Пароль"
-                type="password"
-                setVar={() => {}}
-                placeholder="Пароль *"
-              />
-              <label className="label">
+              <form className="form-control" onSubmit={submit}>
+                <Input
+                  required={true}
+                  name="Логин"
+                  type="text"
+                  setVar={setLogin}
+                  placeholder="Логин *"
+                />
+                <Input
+                  required={true}
+                  name="Пароль"
+                  type="password"
+                  setVar={setPassword}
+                  placeholder="Пароль *"
+                />
+                {/* <label className="label">
                 <Link to="/" className="label-text-alt link link-hover">
-                  Забыли пароль?
+                Забыли пароль?
                 </Link>
-              </label>
+              </label> */}
 
-              <div className="form-control mt-6">
-                <button className="btn btn-primary">Войти</button>
-              </div>
+                <div className="form-control mt-6">
+                  <button type="submit" className="btn btn-primary">
+                    Войти
+                  </button>
+                </div>
 
-              <div className="form-control mt-6">
-                <Link to="/signup" className="btn btn-outline btn-primary">
-                  Зарегистрироваться
-                </Link>
-              </div>
+                <div className="form-control mt-6">
+                  <Link to="/signup" className="btn btn-outline btn-primary">
+                    Зарегистрироваться
+                  </Link>
+                </div>
+              </form>
             </div>
           </div>
         </div>

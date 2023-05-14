@@ -3,6 +3,7 @@ type InputProps = {
   name: string;
   error?: boolean;
   placeholder?: string;
+  required?: boolean;
   setVar: React.Dispatch<React.SetStateAction<string>>;
 };
 
@@ -14,6 +15,7 @@ const Input = (props: InputProps) => {
           <span className="label-text">{props.name}</span>
         </label>
         <input
+          required={props.required}
           autoComplete={props.type === "password" ? "current-password" : "on"}
           type={props.type}
           placeholder={props.placeholder}

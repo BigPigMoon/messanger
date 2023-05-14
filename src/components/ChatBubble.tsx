@@ -13,7 +13,9 @@ const ChatBubble = ({ name, createdAt, message, left }: ChatBubbleProps) => {
           {name}
           <time className="text-xs opacity-50"> {createdAt}</time>
         </div>
-        <div className="chat-bubble">{message}</div>
+        <div className="chat-bubble bg-primary">
+          <p className="text-base-100">{message}</p>
+        </div>
       </div>
     </>
   );

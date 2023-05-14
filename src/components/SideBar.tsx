@@ -1,77 +1,64 @@
+import { useState } from "react";
+import { fetcher } from "../http";
 import MiniDialog from "./MiniDialog";
+import useSWR from "swr";
+import { UserType } from "../types";
 
 const SideBar = () => {
+  const [selectedChat, setSelectedChat] = useState<number | undefined>(
+    undefined
+  );
+
+  const { data: me } = useSWR<UserType>("/users/me", fetcher);
+
+  const { data } = useSWR<UserType[]>("/users/all", fetcher);
+
   return (
     <>
       <div className="w-96 bg-base-100">
-        <div className="flex p-4 w-96">
+        <div className="flex p-4 w-96 justify-normal">
           <input
             type="text"
             autoComplete="false"
             placeholder="Поиск"
             className="input input-bordered w-full max-w-xs"
           />
-          <button className="ml-3">
+          <label
+            htmlFor="profile-modal"
+            className="ml-3 flex justify-center items-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="currentColor"
-              className="bi bi-gear"
-              viewBox="0 0 16 16"
+              width="32"
+              height="32"
+              color="bg-primary"
+              viewBox="0 0 512 512"
             >
-              <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
-              <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+              <path d="M258.9 48C141.92 46.42 46.42 141.92 48 258.9c1.56 112.19 92.91 203.54 205.1 205.1 117 1.6 212.48-93.9 210.88-210.88C462.44 140.91 371.09 49.56 258.9 48zm126.42 327.25a4 4 0 01-6.14-.32 124.27 124.27 0 00-32.35-29.59C321.37 329 289.11 320 256 320s-65.37 9-90.83 25.34a124.24 124.24 0 00-32.35 29.58 4 4 0 01-6.14.32A175.32 175.32 0 0180 259c-1.63-97.31 78.22-178.76 175.57-179S432 158.81 432 256a175.32 175.32 0 01-46.68 119.25z" />
+              <path d="M256 144c-19.72 0-37.55 7.39-50.22 20.82s-19 32-17.57 51.93C191.11 256 221.52 288 256 288s64.83-32 67.79-71.24c1.48-19.74-4.8-38.14-17.68-51.82C293.39 151.44 275.59 144 256 144z" />
             </svg>
-          </button>
+          </label>
         </div>
         <div className="w-full">
           <ul className="menu bg-base-100 w-full">
-            <li>
-              <MiniDialog name="Василий" lastMessage="яяяяяя" readed={true} />
-            </li>
-            <li className="bordered">
-              <MiniDialog name="Мария" avatar="kldjf" />
-            </li>
-            <li>
-              <MiniDialog name="Хуила" />
-            </li>
-            <li>
-              <MiniDialog name="Василий" />
-            </li>
-            <li className="bordered">
-              <MiniDialog name="Мария" avatar="kldjf" />
-            </li>
-            <li>
-              <MiniDialog name="Хуила" />
-            </li>{" "}
-            <li>
-              <MiniDialog name="Василий" />
-            </li>
-            <li className="bordered">
-              <MiniDialog name="Мария" avatar="kldjf" />
-            </li>
-            <li>
-              <MiniDialog name="Хуила" />
-            </li>{" "}
-            <li>
-              <MiniDialog name="Василий" />
-            </li>
-            <li className="bordered">
-              <MiniDialog name="Мария" avatar="kldjf" />
-            </li>
-            <li>
-              <MiniDialog name="Хуила" />
-            </li>{" "}
-            <li>
-              <MiniDialog name="Василий" />
-            </li>
-            <li className="bordered">
-              <MiniDialog name="Мария" avatar="kldjf" />
-            </li>
-            <li>
-              <MiniDialog name="Хуила" />
-            </li>
+            {data &&
+              me &&
+              data.map(
+                (val: UserType) =>
+                  val.id !== me.id && (
+                    <li
+                      key={val.id}
+                      className={selectedChat === val.id ? "bordered" : ""}
+                    >
+                      <MiniDialog
+                        name={val.username}
+                        userId={val.id}
+                        key={val.id}
+                        onClick={() => setSelectedChat(val.id)}
+                      />
+                    </li>
+                  )
+              )}
           </ul>
         </div>
       </div>
