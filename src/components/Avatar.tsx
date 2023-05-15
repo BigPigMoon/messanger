@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import $api from "../http";
+import useSWR from "swr";
 
 const Avatar = ({ userId, name }: { userId: number; name: string }) => {
   const [avatar, setImgUrl] = useState<string | null>("");
+  const fileFetcher = (url: string) =>
+    $api.get(url, { responseType: "blob" }).then((res) => res.data);
+
+  const { data, error } = useSWR(
+    `/users/avatar/download?user_id=${userId}`,
+    fileFetcher,
+    { shouldRetryOnError: false }
+  );
 
   useEffect(() => {
-    $api
-      .get(`/users/avatar/download?user_id=${userId}`, { responseType: "blob" })
-      .then((res) => {
-        setImgUrl(URL.createObjectURL(res.data));
-      })
-      .catch((e) => {
-        if (e.response) {
-          const status: number = e.response.status;
-          if (status === 404) {
-            setImgUrl(null);
-          }
-        }
-      });
-  }, [userId, avatar]);
+    if (data) {
+      setImgUrl(URL.createObjectURL(data));
+    } else {
+      setImgUrl("");
+    }
+  }, [data]);
 
   return (
     <>
       <figure className="flex self-center h-full justify-center">
-        {avatar ? (
+        {!error && avatar ? (
           <div className="avatar w-16 h-16">
             <div className="rounded-full w-16 h-16">
               <img src={avatar} alt="avatar" />

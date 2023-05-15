@@ -1,14 +1,31 @@
 import React, { useState } from "react";
+import { UserType } from "../types";
 
-type SendInputProps = {
-  send: (
-    content: string,
-    setContent: React.Dispatch<React.SetStateAction<string>>
-  ) => void;
-};
+const SendInput = ({
+  ws,
+  userId,
+  me,
+}: {
+  ws: React.MutableRefObject<WebSocket | undefined>;
+  userId: number;
+  me: UserType;
+}) => {
+  const [messageBody, setMessageBody] = useState("");
 
-const SendInput = () => {
-  const [content, setContent] = useState("");
+  // sending message function
+  const sendMessage = () => {
+    if (messageBody && ws.current && me) {
+      ws.current.send(
+        JSON.stringify({
+          sender_id: me?.id,
+          recipient_id: userId,
+          group_id: null,
+          message_text: messageBody,
+        })
+      );
+      setMessageBody("");
+    }
+  };
 
   return (
     <>
@@ -16,12 +33,12 @@ const SendInput = () => {
         <input
           className="w-full input input-bordered m-2"
           onChange={(e) => {
-            setContent(e.target.value);
+            setMessageBody(e.target.value);
           }}
-          value={content}
+          value={messageBody}
           type="text"
           onKeyDown={(e) => {
-            // if (e.key === "Enter") send(content, setContent);
+            if (e.key === "Enter") sendMessage();
           }}
           placeholder="Введите сообщение..."
         />
@@ -32,7 +49,7 @@ const SendInput = () => {
             fill="currentColor"
             className="w-8 flex justify-center items-center cursor-pointer"
             onClick={() => {
-              // send(content, setContent);
+              sendMessage();
             }}
           >
             <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />

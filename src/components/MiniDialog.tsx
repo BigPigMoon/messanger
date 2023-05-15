@@ -18,12 +18,15 @@ const MiniDialog = ({
 }: MiniDialogProps) => {
   return (
     <>
-      <div onClick={onClick} className="card card-side w-full rounded-none">
+      <div
+        onClick={onClick}
+        className="card card-side w-full rounded-none space-x-0"
+      >
         <Avatar userId={userId} name={name} />
         <div className="card-body">
           <div className="flex">
             <div className="flex flex-col">
-              <h2 className="card-title text-ellipsis whitespace-nowrap overflow-hidden">
+              <h2 className="card-title text-ellipsis whitespace-nowrap overflow-hidden text-sm">
                 {name}
               </h2>
               <p>{lastMessage}</p>

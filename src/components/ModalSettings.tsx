@@ -31,11 +31,7 @@ const ModalSettings = () => {
           "content-type": "multipart/form-data",
         },
       };
-      await $api
-        .post("/users/avatar/upload", avatarData, config)
-        .then((res) => {
-          console.log(res.data);
-        });
+      await $api.post("/users/avatar/upload", avatarData, config);
     }
   };
 
@@ -63,16 +59,17 @@ const ModalSettings = () => {
         </div>
       )}
       <div className="flex flex-col mt-8 space-y-4 w-full">
-        <div className="flex space-x-4 w-full">
+        <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 w-full">
           <input
             className="input input-bordered w-full"
+            placeholder={me?.username}
             onChange={(e) => setNewName(e.target.value)}
           />
           <button className="btn btn-primary" onClick={changeName}>
             Изменить имя
           </button>
         </div>
-        <div className="flex flex-row w-full space-x-4">
+        <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 w-full">
           <input
             type="file"
             className="file-input file-input-primary file-input-bordered"

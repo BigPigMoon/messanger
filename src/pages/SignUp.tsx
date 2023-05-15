@@ -16,7 +16,7 @@ const SignUp = () => {
   useEffect(() => {
     const timeId = setTimeout(() => {
       setShowAlert(false);
-    }, 3000);
+    }, 7000);
 
     return () => {
       clearTimeout(timeId);
@@ -37,15 +37,17 @@ const SignUp = () => {
     }
 
     // TODO: password not secure
-    // if (
-    //   !password.match(
-    //     /^(?=.*[A-Za-z])(?=.*)(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$/gm
-    //   )
-    // ) {
-    //   setShowAlert(true);
-    //   setAlertMessage("Пароль не безопасен!");
-    //   return;
-    // }
+    if (
+      !password.match(
+        /^(?=.*[A-Za-z0-9])(?=.*)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/gm
+      )
+    ) {
+      setShowAlert(true);
+      setAlertMessage(
+        "Пароль не безопасен!\nПароль должен содержать хотя бы одну заглавную и прописную букву, и специальный символ (@$!%*#?&)"
+      );
+      return;
+    }
 
     axios
       .post(`${API_URL}/auth/signup`, {

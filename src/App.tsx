@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import RouteGuard from "./utils/RouteGuard";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
@@ -10,6 +10,8 @@ import $api, { API_URL } from "./http";
 import { UserType } from "./types";
 
 function App() {
+  const navigate = useNavigate();
+
   useEffect(() => {
     const tokens = useToken.getState();
 
@@ -17,13 +19,14 @@ function App() {
       $api
         .get<UserType>(`${API_URL}/users/me`, {
           withCredentials: true,
-          headers: { Authorization: `Bearer ${tokens.refresh}` },
+          headers: { Authorization: `Bearer ${tokens.access}` },
         })
         .catch((e) => {
           useToken.setState({ access: "", refresh: "" });
+          navigate("/signin");
         });
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <>
