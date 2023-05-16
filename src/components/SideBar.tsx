@@ -23,9 +23,9 @@ const SideBar = ({
     <>
       <div className="drawer-side">
         <label htmlFor="chat-drawer" className="drawer-overlay"></label>
-        <aside className="w-96 bg-base-100 grid">
+        <aside className="w-96 bg-base-100">
           <>
-            <div className="flex p-4 w-96 justify-normal sticky">
+            <div className="flex bg-base-100 z-20 p-4 w-96 justify-normal top-0 sticky">
               <input
                 type="text"
                 autoComplete="false"

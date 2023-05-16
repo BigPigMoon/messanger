@@ -3,7 +3,7 @@ import { useToken } from "../store";
 import { AuthType } from "../types";
 
 // export const API_URL = "http://109.174.29.40:8123/api";
-export const API_URL = "http://localhost:8123/api";
+export const API_URL = "https://bigeny.ru/api";
 export const WS_URL = "wss://bigeny.ru/api/messages/ws/";
 
 const $api = axios.create({
