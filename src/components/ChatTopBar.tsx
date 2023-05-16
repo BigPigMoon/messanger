@@ -1,10 +1,8 @@
-import { fetcher } from "../http";
-import Avatar from "./Avatar";
-import useSWR from "swr";
+type Props = {
+  children?: string | JSX.Element | JSX.Element[];
+};
 
-const ChatTopBar = ({ userId }: { userId: number | null }) => {
-  const { data } = useSWR(`/users/get?user_id=${userId}`, fetcher);
-
+const ChatTopBar = ({ children }: Props) => {
   return (
     <>
       <div className="navbar bg-base-100">
@@ -28,12 +26,7 @@ const ChatTopBar = ({ userId }: { userId: number | null }) => {
               />
             </svg>
           </label>
-          {data && userId && (
-            <div className="flex space-x-4 items-center justify-center">
-              <Avatar name={data.username} userId={userId} />
-              <h2 className="text-2xl font-bold ml-4">{data.username}</h2>
-            </div>
-          )}
+          {children}
         </div>
       </div>
     </>

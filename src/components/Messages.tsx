@@ -29,10 +29,6 @@ const Messages = ({
   });
 
   useEffect(() => {
-    console.log(messages);
-  }, [messages]);
-
-  useEffect(() => {
     // Listening on ws new added messages
     if (ws.current) {
       ws.current.onmessage = (event) => {

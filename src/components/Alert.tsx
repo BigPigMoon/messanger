@@ -6,7 +6,7 @@ const Alert = ({ message }: { message: string }) => {
   useEffect(() => {
     const timeId = setTimeout(() => {
       setShowAlert(false);
-    }, 3000);
+    }, 7000);
 
     return () => {
       clearTimeout(timeId);
@@ -17,7 +17,7 @@ const Alert = ({ message }: { message: string }) => {
 
   return (
     <>
-      <div className="absolute bottom-0 right-0 m-10">
+      <div className="absolute bottom-0 right-0 m-10 z-30">
         <div className="alert alert-error shadow-lg">
           <div>
             <svg

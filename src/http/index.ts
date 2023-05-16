@@ -2,7 +2,7 @@ import axios from "axios";
 import { useToken } from "../store";
 import { AuthType } from "../types";
 
-// export const API_URL = "https://bigeny.ru/api";
+// export const API_URL = "http://109.174.29.40:8123/api";
 export const API_URL = "http://localhost:8123/api";
 export const WS_URL = "ws://109.174.29.40:8123/api/messages/ws/";
 
@@ -45,7 +45,6 @@ $api.interceptors.response.use(
           access: res.data.access_token,
           refresh: res.data.refresh_token,
         });
-        console.log(res.data.refresh_token);
         return $api.request(config);
       } catch (e) {
         console.log(e);

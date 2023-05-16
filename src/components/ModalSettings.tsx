@@ -31,7 +31,7 @@ const ModalSettings = () => {
           "content-type": "multipart/form-data",
         },
       };
-      await $api.post("/users/avatar/upload", avatarData, config);
+      await $api.post("/avatar/upload", avatarData, config);
     }
   };
 

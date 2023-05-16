@@ -5,6 +5,7 @@ import { UserType } from "../types";
 import useSWR from "swr";
 import Messages from "./Messages";
 import SendInput from "./SendInput";
+import TopChatInfo from "./TopChatInfo";
 
 const Chat = ({ selectedChat }: { selectedChat: number | null }) => {
   const { data: me } = useSWR<UserType>("/users/me", fetcher);
@@ -16,11 +17,11 @@ const Chat = ({ selectedChat }: { selectedChat: number | null }) => {
       ws.current = new WebSocket(WS_URL + me.id);
 
       ws.current.onopen = () => {
-        console.log("Connection opened");
+        // console.log("Connection opened");
       };
 
       return () => {
-        console.log("Cleaning up...");
+        // console.log("Cleaning up...");
         if (ws.current) {
           ws.current.close();
         }
@@ -30,14 +31,16 @@ const Chat = ({ selectedChat }: { selectedChat: number | null }) => {
 
   return (
     <>
-      {selectedChat && me ? (
+      {selectedChat !== null && me ? (
         <div className="flex flex-col bg-chat h-screen">
-          <ChatTopBar userId={selectedChat} />
+          <ChatTopBar>
+            <TopChatInfo userId={selectedChat} />
+          </ChatTopBar>
           <Messages userId={selectedChat} ws={ws} />
           <SendInput ws={ws} userId={selectedChat} me={me} />
         </div>
       ) : (
-        <ChatTopBar userId={selectedChat} />
+        <ChatTopBar />
       )}
     </>
   );

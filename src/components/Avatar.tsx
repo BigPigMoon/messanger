@@ -8,7 +8,7 @@ const Avatar = ({ userId, name }: { userId: number; name: string }) => {
     $api.get(url, { responseType: "blob" }).then((res) => res.data);
 
   const { data, error } = useSWR(
-    `/users/avatar/download?user_id=${userId}`,
+    `/avatar/download?user_id=${userId}`,
     fileFetcher,
     { shouldRetryOnError: false }
   );
