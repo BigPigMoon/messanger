@@ -33,14 +33,11 @@ const Messenger = () => {
             </div>
           </div>
         </div>
-        <div className="drawer-side">
-          <label htmlFor="chat-drawer" className="drawer-overlay"></label>
-          <SideBar
-            setSelectedChat={setSelectedChat}
-            selectedChat={selectedChat}
-            drawerCheckbox={drawerCheckbox}
-          />
-        </div>
+        <SideBar
+          setSelectedChat={setSelectedChat}
+          selectedChat={selectedChat}
+          drawerCheckbox={drawerCheckbox}
+        />
       </div>
     </>
   );

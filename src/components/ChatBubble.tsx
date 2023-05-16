@@ -1,4 +1,6 @@
+import { Interweave } from "interweave";
 import getDate from "../utils/DateFormat";
+import { UrlMatcher } from "interweave-autolink";
 
 type ChatBubbleProps = {
   name: string;
@@ -8,6 +10,20 @@ type ChatBubbleProps = {
 };
 
 const ChatBubble = ({ name, createdAt, message, left }: ChatBubbleProps) => {
+  const linkify = (text: string) => {
+    var urlRegex =
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    return text.replace(urlRegex, (url: string) => {
+      return (
+        '<a className="links" target="_blank" href="' +
+        url +
+        '">' +
+        url +
+        "</a>"
+      );
+    });
+  };
+
   return (
     <>
       <div className={`chat ${left ? "chat-start" : "chat-end"} mx-4 p-0`}>
@@ -16,7 +32,7 @@ const ChatBubble = ({ name, createdAt, message, left }: ChatBubbleProps) => {
           <time className="text-xs opacity-50"> {getDate(createdAt)}</time>
         </div>
         <div className="chat-bubble bg-primary">
-          <p className="text-base-100">{message}</p>
+          <Interweave className="text-base-100" content={linkify(message)} />
         </div>
       </div>
     </>
