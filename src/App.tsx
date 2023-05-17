@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import RouteGuard from "./utils/RouteGuard";
 import NotFound from "./pages/NotFound";
@@ -21,7 +21,7 @@ function App() {
           withCredentials: true,
           headers: { Authorization: `Bearer ${tokens.access}` },
         })
-        .catch((e) => {
+        .catch((_) => {
           useToken.setState({ access: "", refresh: "" });
           navigate("/signin");
         });
