@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import $api from "../http";
 import useSWR from "swr";
 
-const Avatar = ({ userId, name }: { userId: number; name: string }) => {
+type Props = {
+  userId: number;
+  name: string;
+};
+
+const Avatar = ({ userId, name }: Props) => {
   const [avatar, setImgUrl] = useState<string | null>("");
   const fileFetcher = (url: string) =>
     $api.get(url, { responseType: "blob" }).then((res) => res.data);

@@ -7,7 +7,11 @@ import Messages from "./Messages";
 import SendInput from "./SendInput";
 import TopChatInfo from "./TopChatInfo";
 
-const Chat = ({ selectedChat }: { selectedChat: number | null }) => {
+type Props = {
+  selectedChat: number | null;
+};
+
+const Chat = ({ selectedChat }: Props) => {
   const { data: me } = useSWR<UserType>("/users/me", fetcher);
 
   const ws = useRef<WebSocket>();
@@ -16,12 +20,7 @@ const Chat = ({ selectedChat }: { selectedChat: number | null }) => {
     if (me) {
       ws.current = new WebSocket(WS_URL + me.id);
 
-      ws.current.onopen = () => {
-        // console.log("Connection opened");
-      };
-
       return () => {
-        // console.log("Cleaning up...");
         if (ws.current) {
           ws.current.close();
         }

@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { UserType } from "../types";
 
-const SendInput = ({
-  ws,
-  userId,
-  me,
-}: {
+type Props = {
   ws: React.MutableRefObject<WebSocket | undefined>;
   userId: number;
   me: UserType;
-}) => {
+};
+
+const SendInput = ({ ws, userId, me }: Props) => {
   const [messageBody, setMessageBody] = useState("");
 
   // sending message function

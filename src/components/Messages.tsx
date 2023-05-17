@@ -4,13 +4,12 @@ import { fetcher } from "../http";
 import useSWR from "swr";
 import { MessageType, UserType } from "../types";
 
-const Messages = ({
-  ws,
-  userId,
-}: {
+type Props = {
   ws: React.MutableRefObject<WebSocket | undefined>;
   userId: number;
-}) => {
+};
+
+const Messages = ({ ws, userId }: Props) => {
   const { data: me } = useSWR<UserType>("/users/me", fetcher);
   const { data: other } = useSWR<UserType>(
     `/users/get?user_id=${userId}`,

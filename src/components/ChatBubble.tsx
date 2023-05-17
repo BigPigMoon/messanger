@@ -1,15 +1,14 @@
 import { Interweave } from "interweave";
 import getDate from "../utils/DateFormat";
-import { UrlMatcher } from "interweave-autolink";
 
-type ChatBubbleProps = {
+type Props = {
   name: string;
   message: string;
   createdAt: string;
   left: boolean;
 };
 
-const ChatBubble = ({ name, createdAt, message, left }: ChatBubbleProps) => {
+const ChatBubble = ({ name, createdAt, message, left }: Props) => {
   const linkify = (text: string) => {
     var urlRegex =
       /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;

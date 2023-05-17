@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-const Alert = ({ message }: { message: string }) => {
+type Props = {
+  message: string;
+};
+
+const Alert = ({ message }: Props) => {
   const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {

@@ -4,15 +4,13 @@ import MiniDialog from "./MiniDialog";
 import useSWR from "swr";
 import { UserType } from "../types";
 
-const SideBar = ({
-  selectedChat,
-  setSelectedChat,
-  drawerCheckbox,
-}: {
+type Props = {
   selectedChat: number | null;
   setSelectedChat: React.Dispatch<React.SetStateAction<number | null>>;
   drawerCheckbox: React.RefObject<HTMLInputElement>;
-}) => {
+};
+
+const SideBar = ({ selectedChat, setSelectedChat, drawerCheckbox }: Props) => {
   const [searchValue, setSearchValue] = useState("");
 
   const { data: me } = useSWR<UserType>("/users/me", fetcher);

@@ -1,28 +1,27 @@
 type InputProps = {
   type: string;
   name: string;
-  error?: boolean;
   placeholder?: string;
   required?: boolean;
   setVar: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Input = (props: InputProps) => {
+const Input = ({ name, required, type, placeholder, setVar }: InputProps) => {
   return (
     <>
       <div className="form-control">
         <label className="label">
-          <span className="label-text">{props.name}</span>
+          <span className="label-text">{name}</span>
         </label>
         <input
-          required={props.required}
-          autoComplete={props.type === "password" ? "current-password" : "on"}
-          type={props.type}
-          placeholder={props.placeholder}
+          required={required}
+          autoComplete={type === "password" ? "current-password" : "on"}
+          type={type}
+          placeholder={placeholder}
           onChange={(e) => {
-            props.setVar(e.target.value);
+            setVar(e.target.value);
           }}
-          className={`input input-bordered ${props.error && "input-error"}`}
+          className={"input input-bordered"}
         />
       </div>
     </>

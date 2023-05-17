@@ -2,7 +2,9 @@ import { fetcher } from "../http";
 import Avatar from "./Avatar";
 import useSWR from "swr";
 
-const TopChatInfo = ({ userId }: { userId: number }) => {
+type Props = { userId: number };
+
+const TopChatInfo = ({ userId }: Props) => {
   const { data } = useSWR(`/users/get?user_id=${userId}`, fetcher);
   return (
     <>
