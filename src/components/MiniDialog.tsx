@@ -1,6 +1,6 @@
 import Avatar from "./Avatar";
 
-type MiniDialogProps = {
+type Props = {
   name: string;
   userId: number;
   lastMessage?: string | null;
@@ -9,13 +9,7 @@ type MiniDialogProps = {
 };
 // TODO: large test should cut and replace on "..."
 
-const MiniDialog = ({
-  readed,
-  name,
-  userId,
-  lastMessage,
-  onClick,
-}: MiniDialogProps) => {
+const MiniDialog = ({ readed, name, userId, lastMessage, onClick }: Props) => {
   return (
     <>
       <div
