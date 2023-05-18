@@ -7,7 +7,7 @@ import { useToken } from "../store";
 import Alert from "../components/Alert";
 
 const SignIn = () => {
-  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [showAlert, setShowAlert] = useState(false);
@@ -30,7 +30,7 @@ const SignIn = () => {
 
     axios
       .post(`${API_URL}/auth/login`, {
-        username: login,
+        email: email,
         password: password,
       })
       .then((res) => {
@@ -70,10 +70,10 @@ const SignIn = () => {
               <form className="form-control" onSubmit={submit}>
                 <Input
                   required={true}
-                  name="Логин"
-                  type="text"
-                  setVar={setLogin}
-                  placeholder="Логин *"
+                  name="Почта"
+                  type="email"
+                  setVar={setEmail}
+                  placeholder="Почта *"
                 />
                 <Input
                   required={true}

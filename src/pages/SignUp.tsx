@@ -7,9 +7,13 @@ import { API_URL } from "../http";
 import Alert from "../components/Alert";
 
 const SignUp = () => {
-  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -30,13 +34,35 @@ const SignUp = () => {
 
     setShowAlert(false);
 
+    if (name.length > 100) {
+      setShowAlert(true);
+      setAlertMessage("У вас длинное имя!");
+      return;
+    }
+
+    if (surname.length > 100) {
+      setShowAlert(true);
+      setAlertMessage("У вас длинная фамилия!");
+      return;
+    }
+
+    if (
+      !email
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      setShowAlert(true);
+      setAlertMessage("Это не похоже на электронную почту!");
+      return;
+    }
     if (password !== repeatPassword) {
       setShowAlert(true);
       setAlertMessage("Пароли не совпадают!");
       return;
     }
 
-    // TODO: password not secure
     if (password.length < 8) {
       setShowAlert(true);
       setAlertMessage(
@@ -47,7 +73,9 @@ const SignUp = () => {
 
     axios
       .post(`${API_URL}/auth/signup`, {
-        username: login,
+        name: name,
+        surname: surname,
+        email: email,
         password: password,
       })
       .then((res) => {
@@ -87,10 +115,24 @@ const SignUp = () => {
               <form onSubmit={submit}>
                 <Input
                   required={true}
-                  name="Логин"
+                  name="Почта"
+                  type="email"
+                  setVar={setEmail}
+                  placeholder="user@mail.ru"
+                />
+                <Input
+                  required={true}
+                  name="Имя"
                   type="text"
-                  setVar={setLogin}
-                  placeholder="Логин *"
+                  setVar={setName}
+                  placeholder="Имя *"
+                />
+                <Input
+                  required={true}
+                  name="Фамилия"
+                  type="text"
+                  setVar={setSurname}
+                  placeholder="Фамилия *"
                 />
                 <Input
                   required={true}
