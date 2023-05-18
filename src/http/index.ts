@@ -6,6 +6,8 @@ import { AuthType } from "../types";
 export const API_URL = "https://bigeny.ru/api";
 export const WS_URL = "wss://bigeny.ru/api/messages/ws/";
 
+let refresh_req = false;
+
 const $api = axios.create({
   withCredentials: true,
   headers: {
@@ -29,7 +31,13 @@ $api.interceptors.response.use(
     const getTokens = useToken.getState;
     const config = error.config;
 
-    if (error.response.status === 401 && config && !config.sent) {
+    if (
+      error.response.status === 401 &&
+      config &&
+      !config.sent &&
+      !refresh_req
+    ) {
+      refresh_req = true;
       config.sent = true;
       try {
         const $ref = axios.create({
@@ -45,10 +53,12 @@ $api.interceptors.response.use(
           access: res.data.access_token,
           refresh: res.data.refresh_token,
         });
+        refresh_req = false;
         return $api.request(config);
       } catch (e) {
         console.log(e);
         setToknes({ access: "", refresh: "" });
+        refresh_req = false;
       }
     }
     throw error;
