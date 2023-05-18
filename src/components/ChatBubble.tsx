@@ -2,7 +2,7 @@ import { Interweave } from "interweave";
 import getDate from "../utils/DateFormat";
 
 type Props = {
-  name: string;
+  name?: string;
   message: string;
   createdAt: string;
   left: boolean;
