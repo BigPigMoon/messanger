@@ -82,7 +82,7 @@ const ModalSettings = () => {
 
     $api.post<UserType>("/users/edit", { username: newName }).then((res) => {
       if (me) {
-        mutate({ ...me, username: res.data.username });
+        mutate({ ...me, name: res.data.name });
       }
     });
   };
@@ -93,9 +93,9 @@ const ModalSettings = () => {
       <h3 className="text-lg font-bold">Настройки</h3>
       {me && (
         <div className="flex flex-col items-center justify-center w-full mt-5">
-          <Avatar userId={me.id} name={me.username} />
+          <Avatar userId={me.id} name={me.name} />
           <h1 className="text-lg font-bold h-full self-center mt-4">
-            {me.username}
+            {me.name}
           </h1>
         </div>
       )}
@@ -103,7 +103,7 @@ const ModalSettings = () => {
         <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 w-full">
           <input
             className="input input-bordered w-full"
-            placeholder={me?.username}
+            placeholder={me?.name}
             onChange={(e) => setNewName(e.target.value)}
           />
           <button className="btn btn-primary" onClick={changeName}>

@@ -51,7 +51,7 @@ const SideBar = ({ selectedChat, setSelectedChat, drawerCheckbox }: Props) => {
                   me &&
                   data
                     .filter((value) =>
-                      value.username
+                      value.name
                         .toLowerCase()
                         .includes(searchValue.toLowerCase())
                     )
@@ -65,7 +65,7 @@ const SideBar = ({ selectedChat, setSelectedChat, drawerCheckbox }: Props) => {
                             }
                           >
                             <MiniDialog
-                              name={val.username}
+                              name={val.name}
                               userId={val.id}
                               key={val.id}
                               onClick={() => {
