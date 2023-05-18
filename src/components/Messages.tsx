@@ -1,12 +1,22 @@
+import { useEffect } from "react";
 import useSWRInfinite from "swr/infinite";
 import { fetcher } from "../http";
-import { MessageType } from "../types";
+import { MessageType, UserType } from "../types";
 import ChatBubble from "./ChatBubble";
 
-const Messages = ({ userId }: { userId: number }) => {
-  const { data, setSize } = useSWRInfinite(
+type Props = {
+  userId: number;
+  me?: UserType;
+  other?: UserType;
+  ws: React.MutableRefObject<WebSocket | undefined>;
+  scrollRef: React.RefObject<HTMLDivElement>;
+};
+
+const Messages = ({ userId, me, other, ws, scrollRef }: Props) => {
+  const { data, mutate, setSize } = useSWRInfinite(
     (index) => {
-      return `/messages/get?recipient_id=${userId}&limit=5&offset=${index * 5}`;
+      return `/messages/get?recipient_id=${userId}&limit=50&offset=${index * 50
+        }`;
     },
     fetcher,
     {
@@ -14,7 +24,28 @@ const Messages = ({ userId }: { userId: number }) => {
     }
   );
 
-  const messages = data ? [].concat(...data) : [];
+  const messages: Array<MessageType> = data ? [].concat(...data) : [];
+
+  useEffect(() => {
+    // Listening on ws new added messages
+    if (ws.current) {
+      ws.current.onmessage = (event) => {
+        const newMessage: MessageType = JSON.parse(event.data);
+        if (me && other) {
+          if (
+            (newMessage.sender_id === me.id &&
+              newMessage.recipient_id === other.id) ||
+            (newMessage.sender_id === other.id &&
+              newMessage.recipient_id === me.id)
+          ) {
+            mutate();
+          }
+        }
+      };
+    }
+  }, [ws, me, other]);
+
+  useEffect(() => { }, []);
 
   return (
     <>
