@@ -8,7 +8,7 @@ type Props = {
   left: boolean;
 };
 
-const ChatBubble = ({ name, createdAt, message, left }: Props) => {
+const ChatBubble = ({ createdAt, message, left }: Props) => {
   const linkify = (text: string) => {
     var urlRegex =
       /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
@@ -26,12 +26,19 @@ const ChatBubble = ({ name, createdAt, message, left }: Props) => {
   return (
     <>
       <div className={`chat ${left ? "chat-start" : "chat-end"} mx-4 p-0`}>
-        <div className="chat-header">
-          {name}
-          <time className="text-xs opacity-50"> {getDate(createdAt)}</time>
-        </div>
-        <div className="chat-bubble bg-primary">
-          <Interweave className="text-base-100" content={linkify(message)} />
+        <div className="chat-bubble bg-primary flex flex-col w-2/3 max-w-fit">
+          {/* {left && ( */}
+          {/*   <div className="text-base-100 font-bold text-lg self-start mb-2"> */}
+          {/*     {name} */}
+          {/*   </div> */}
+          {/* )} */}
+          <Interweave
+            className="text-base-100 break-words"
+            content={linkify(message)}
+          />
+          <time className="text-xs text-base-100 opacity-100 self-end mt-2">
+            {getDate(createdAt)}
+          </time>
         </div>
       </div>
     </>

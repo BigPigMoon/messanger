@@ -39,7 +39,14 @@ const Chat = ({ selectedChat }: Props) => {
           <SendInput ws={ws} userId={selectedChat} me={me} />
         </div>
       ) : (
-        <ChatTopBar />
+        <div className="bg-chat h-screen">
+          <ChatTopBar />
+          <div className="h-full w-full flex justify-center items-center">
+            <span className="badge mb-16 badge-primary p-4 text-lg">
+              Выберите, кому хотели бы написать
+            </span>
+          </div>
+        </div>
       )}
     </>
   );

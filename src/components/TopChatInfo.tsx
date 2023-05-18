@@ -9,7 +9,7 @@ const TopChatInfo = ({ userId }: Props) => {
   return (
     <>
       {data && userId && (
-        <div className="flex space-x-4 items-center justify-center">
+        <div className="flex space-x-4 py-4 items-center justify-center">
           <Avatar name={data.username} userId={userId} />
           <h2 className="text-2xl font-bold ml-4">{data.username}</h2>
         </div>

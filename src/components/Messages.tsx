@@ -45,7 +45,7 @@ const Messages = ({ ws, userId }: Props) => {
 
   return (
     <>
-      <div className="h-full scrollbar-hidden overflow-auto mb-2">
+      <div className="h-full scrollbar-hidden overflow-auto space-y-3 mb-2">
         {messages &&
           me &&
           other &&
