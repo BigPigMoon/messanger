@@ -26,11 +26,9 @@ const getDate = (dateStr: string) => {
 
   if (date.getDay() === now.getDay()) res += "Сегодня ";
   else if (date.getDay() === now.getDay() - 1) res += "Вчера ";
-  else res += `${date.getDay()} ${monthNames[date.getMonth()]}`;
+  else res += `${date.getDay()} ${monthNames[date.getMonth()]} `;
 
-  const utc = date.getTime();
-  var nd = new Date(utc + date.getTimezoneOffset() * 3600 * 100 + 3600000);
-  res += nd.toLocaleTimeString().slice(0, 5);
+  res += date.toLocaleTimeString().slice(0, 5);
 
   return res;
 };
