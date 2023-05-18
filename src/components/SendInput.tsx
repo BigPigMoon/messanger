@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { UserType } from "../types";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   ws: React.MutableRefObject<WebSocket | undefined>;
@@ -41,17 +42,7 @@ const SendInput = ({ ws, userId, me }: Props) => {
           placeholder="Введите сообщение..."
         />
         <div className="w-fit h-full flex items-center justify-center mr-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-8 flex justify-center items-center cursor-pointer"
-            onClick={() => {
-              sendMessage();
-            }}
-          >
-            <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
-          </svg>
+          <PaperAirplaneIcon className="h-8 w-8 text-primary" />
         </div>
       </div>
     </>
