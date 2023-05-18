@@ -1,69 +1,43 @@
-import ChatBubble from "./ChatBubble";
-import { useEffect, useRef } from "react";
+import useSWRInfinite from "swr/infinite";
 import { fetcher } from "../http";
-import useSWR from "swr";
-import { MessageType, UserType } from "../types";
+import { MessageType } from "../types";
+import ChatBubble from "./ChatBubble";
 
-type Props = {
-  ws: React.MutableRefObject<WebSocket | undefined>;
-  userId: number;
-};
-
-const Messages = ({ ws, userId }: Props) => {
-  const { data: me } = useSWR<UserType>("/users/me", fetcher);
-  const { data: other } = useSWR<UserType>(
-    `/users/get?user_id=${userId}`,
-    fetcher
-  );
-
-  const { data: messages, mutate: messagesMutate } = useSWR<MessageType[]>(
-    `/messages/get?recipient_id=${userId}&limit=1000`,
-    fetcher
-  );
-
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({});
-  });
-
-  useEffect(() => {
-    // Listening on ws new added messages
-    if (ws.current) {
-      ws.current.onmessage = (event) => {
-        const data: MessageType = JSON.parse(event.data);
-        if (messages && me && other) {
-          if (
-            (data.sender_id === me.id && data.recipient_id === other.id) ||
-            (data.sender_id === other.id && data.recipient_id === me.id)
-          )
-            messagesMutate([...messages, data]);
-        }
-      };
+const Messages = ({ userId }: { userId: number }) => {
+  const { data, setSize } = useSWRInfinite(
+    (index) => {
+      return `/messages/get?recipient_id=${userId}&limit=5&offset=${index * 5}`;
+    },
+    fetcher,
+    {
+      revalidateFirstPage: false,
     }
-  }, [messages, messagesMutate, ws, me, other]);
+  );
+
+  const messages = data ? [].concat(...data) : [];
 
   return (
     <>
-      <div className="h-full scrollbar-hidden overflow-auto space-y-3 mb-2">
-        {messages &&
-          me &&
-          other &&
-          messages
-            .sort((a, b) => {
-              return Date.parse(a.created_at) - Date.parse(b.created_at);
-            })
-            .map((val: MessageType) => (
-              <ChatBubble
-                key={val.id}
-                name={val.sender_id !== userId ? me.username : other.username}
-                left={val.sender_id === userId}
-                message={val.message_text}
-                createdAt={val.created_at}
-              />
-            ))}
-        <div ref={bottomRef} />
-      </div>
+      <button
+        onClick={() => {
+          setSize((prev) => prev + 1);
+        }}
+        className="btn"
+      >
+        Load more...
+      </button>
+      {messages
+        .sort((a: MessageType, b: MessageType) => {
+          return Date.parse(a.created_at) - Date.parse(b.created_at);
+        })
+        .map((val: MessageType) => (
+          <ChatBubble
+            key={val.id}
+            left={val.sender_id === userId}
+            message={val.message_text}
+            createdAt={val.created_at}
+          />
+        ))}
     </>
   );
 };
