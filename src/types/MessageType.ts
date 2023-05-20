@@ -5,4 +5,5 @@ export type MessageType = {
   group_id: number;
   message_text: string;
   created_at: string;
+  readed: boolean;
 };
