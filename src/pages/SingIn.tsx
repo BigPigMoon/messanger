@@ -57,13 +57,9 @@ const SignIn = () => {
           <div className="flex flex-col lg:flex-row card card-side bg-base-100 shadow-2xl w-full">
             <div className="lg:w-1/2 mt-10 ml-10 mr-10">
               <div className="flex flex-col justify-center items-center max-h-max">
-                <h1 className="text-4xl text-center font-bold whitespace-nowrap">
+                <h1 className="text-6xl text-center font-bold whitespace-nowrap">
                   С возвращением!
                 </h1>
-                <p className="py-6 hidden lg:block">
-                  Базированный текст! Напишу сюда про пользу пива и про то как
-                  оно расширяет простраснтво и время, но не сильно ;)
-                </p>
               </div>
             </div>
             <div className="card-body lg:w-1/2">
@@ -82,12 +78,6 @@ const SignIn = () => {
                   setVar={setPassword}
                   placeholder="Пароль *"
                 />
-                {/* <label className="label">
-                <Link to="/" className="label-text-alt link link-hover">
-                Забыли пароль?
-                </Link>
-              </label> */}
-
                 <div className="form-control mt-6">
                   <button type="submit" className="btn btn-primary">
                     Войти
